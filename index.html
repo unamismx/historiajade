@@ -115,13 +115,13 @@ if(s.active>=n)s.complete=true;
 if(!s.complete&&!s.prepared){
 const i=s.active,low=s.bottom[i],original=s.working[i];
 if(original<low){
-let lender=i-1;while(lender>=0&&s.working[lender]===0)lender--;
-if(lender<0){renderGenericMathQuestion(q);return}
+let lender=i+1;while(lender<n&&s.working[lender]===0)lender++;
+if(lender>=n){renderGenericMathQuestion(q);return}
 s.working[lender]--;
-for(let j=lender+1;j<i;j++)s.working[j]=9;
+for(let j=i+1;j<lender;j++)s.working[j]=9;
 s.working[i]+=10;
 const lenderName=colName(lender),singular=singularNames[lender]||lenderName,from=original===0?'se convierten en 10':'se convierten en '+s.working[i];
-s.borrowText='Como '+original+' es menor que '+low+', tomamos 1 '+singular+'. Las '+lenderName+' bajan a '+s.working[lender]+' y las '+colName(i)+' '+from+'.';
+s.borrowText='Como '+original+' es menor que '+low+', cambiamos 1 '+singular+' de la columna de '+lenderName+'. Allí queda '+s.working[lender]+' y las '+colName(i)+' '+from+'.';
 }else{s.borrowText='No hace falta pedir prestado: '+original+' es mayor o igual que '+low+'.'}
 s.prepared=true
 }
